@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { User, Mail, Phone, MapPin, Camera, Edit2, LogOut, Shield, Star, Wallet, CreditCard, ChevronRight } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Camera, Edit2, LogOut, Shield, Star, Wallet, CreditCard, ChevronRight, Calendar } from 'lucide-react';
 import { authApi } from '@/api/auth';
 import { useToast } from '@/hooks/use-toast';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -209,6 +209,18 @@ const ProfilePage: React.FC = () => {
                 <span className="text-3xl font-black text-gray-900 capitalize relative z-10 truncate max-w-full" title={user.subscription?.plan?.replace('_', ' ') || 'Free'}>
                   {user.subscription?.plan?.replace('_', ' ') || 'Free'}
                 </span>
+                {user.subscription && (
+                  <div className="mt-2 flex flex-col gap-1 relative z-10">
+                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                      <Calendar className="w-3 h-3 text-emerald-500" />
+                      Begins: {new Date(user.subscription.start_date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                      <Shield className="w-3 h-3 text-emerald-500" />
+                      Expires: {new Date(user.subscription.end_date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -368,21 +368,23 @@ const TechnicianDashboard: React.FC = () => {
                               <button
                                 onClick={() => {
                                   let query = '';
-                                  // Construct address string from all available parts
                                   const addressParts = [
                                     req.address_details?.street,
                                     req.address_details?.city,
                                     req.address_details?.pincode
                                   ].filter(Boolean).join(' ').trim();
 
-                                  const fallbackAddress = req.user_id?.address;
+                                  const isManual = req.address_details?.manual === true;
+                                  const hasCoords = req.location?.coordinates && req.location.coordinates[0] !== 0;
 
-                                  if (addressParts) {
+                                  if (isManual && addressParts) {
                                     query = encodeURIComponent(addressParts);
-                                  } else if (fallbackAddress) {
-                                    query = encodeURIComponent(fallbackAddress);
-                                  } else if (req.location?.coordinates) {
+                                  } else if (hasCoords) {
                                     query = `${req.location.coordinates[1]},${req.location.coordinates[0]}`;
+                                  } else if (addressParts) {
+                                    query = encodeURIComponent(addressParts);
+                                  } else if (req.user_id?.address) {
+                                    query = encodeURIComponent(req.user_id.address);
                                   }
 
                                   if (query) {
