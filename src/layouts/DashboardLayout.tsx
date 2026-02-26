@@ -7,6 +7,7 @@ import {
   Bell, LogOut, Menu, X, Zap, ChevronRight,
   Users, Briefcase, User, Bot, Github
 } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 interface NavItem {
   label: string;
@@ -78,10 +79,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <div className="flex flex-col h-full">
           { }
           <div className="flex items-center gap-3 p-6 border-b border-gray-100/50">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">ElectroCare</span>
+            <Link to="/">
+              <Logo className="scale-90 origin-left" />
+            </Link>
             <button className="lg:hidden ml-auto text-gray-400 hover:text-gray-900 transition-colors" onClick={() => setSidebarOpen(false)}>
               <X className="h-5 w-5" />
             </button>
@@ -193,12 +193,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
                 { }
                 <div className="col-span-1 md:col-span-1 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center">
-                      <Zap className="h-3.5 w-3.5 text-white" />
-                    </div>
-                    <span className="text-lg font-bold text-gray-900">ElectroCare</span>
-                  </div>
+                  <Logo iconOnly />
                   <p className="text-gray-500 text-xs leading-relaxed">
                     Your trusted partner for home appliance repairs and services. Expert technicians, transparent pricing, and instant booking.
                   </p>

@@ -8,7 +8,6 @@ export const applianceApi = {
     purchaseDate: string;
     serial_number: string;
     invoiceNumber?: string;
-    installation_address: string;
   }) => apiClient.post('/appliances', data),
 
   getMyAppliances: () => apiClient.get('/appliances/my'),

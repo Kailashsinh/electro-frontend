@@ -6,6 +6,7 @@ import { authApi } from '@/api/auth';
 import { Zap, Eye, EyeOff, Shield, Wrench, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ParticleBackground from '@/components/ParticleBackground';
+import Logo from '@/components/Logo';
 
 const LoginPage: React.FC = () => {
   const [roleTab, setRoleTab] = useState<UserRole>('user');
@@ -82,11 +83,10 @@ const LoginPage: React.FC = () => {
       <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-20 pointer-events-none">
         <div className="relative z-10 max-w-xl">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, type: "spring" }}>
-            <div className="flex items-center gap-4 mb-12">
-              <div className="h-16 w-16 rounded-[1.5rem] bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-500/40 rotate-12">
-                <Zap className="h-8 w-8 text-white fill-white" />
-              </div>
-              <span className="text-4xl font-black text-slate-950 tracking-tighter uppercase italic">ElectroCare</span>
+            <div className="mb-12">
+              <Link to="/">
+                <Logo className="scale-125 origin-left" />
+              </Link>
             </div>
 
             <h2 className="text-7xl font-black text-slate-950 leading-[0.85] tracking-tight uppercase italic mb-8">
@@ -131,11 +131,10 @@ const LoginPage: React.FC = () => {
           className="w-full max-w-md relative z-10"
         >
           {/* Logo for mobile only */}
-          <div className="flex items-center justify-center gap-3 mb-10 lg:hidden">
-            <div className="h-12 w-12 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-xl shadow-indigo-500/30">
-              <Zap className="h-6 w-6 text-white fill-white" />
-            </div>
-            <span className="text-3xl font-black text-slate-950 tracking-tighter uppercase italic">ElectroCare</span>
+          <div className="flex items-center justify-center mb-10 lg:hidden">
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
 
           <div className="glass-premium p-10 md:p-14 relative overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] border-white/40">

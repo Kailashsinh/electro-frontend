@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Wrench, AlertTriangle, CheckCircle, XCircle, ChevronRight, Loader2, Sparkles, Brain, Cpu, Zap } from 'lucide-react';
+import { Bot, Wrench, AlertTriangle, CheckCircle, XCircle, ChevronRight, ChevronDown, Loader2, Sparkles, Brain, Cpu, Zap } from 'lucide-react';
 import { aiApi, DiagnosisResponse } from '@/api/ai';
 import { applianceApi } from '@/api/appliances';
 import { useToast } from '@/hooks/use-toast';
@@ -42,7 +42,7 @@ const SmartTroubleshooter: React.FC = () => {
             const res = await aiApi.diagnose({ applianceType: selection.category, description });
             setResult(res.data);
         } catch (error) {
-            toast({ title: 'System Error', description: 'Failed to complete diagnosis. Please try again.', variant: 'destructive' });
+            toast({ title: 'Service Interrupted', description: 'AI diagnostic engine is temporarily unreachable.', variant: 'destructive' });
         } finally {
             setLoading(false);
         }
@@ -61,228 +61,207 @@ const SmartTroubleshooter: React.FC = () => {
     };
 
     return (
-        <div className="relative min-h-screen">
-            {/* Aurora Background Overlay */}
-            <div className="fixed inset-0 -z-10 bg-[#f8fafc] overflow-hidden pointer-events-none opacity-50">
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[150px] -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-500/10 blur-[120px] translate-y-1/2 -translate-x-1/2" />
-            </div>
-
-            <div className="max-w-6xl mx-auto space-y-12 pb-20 pt-4">
-                {/* Header Section */}
-                <div className="text-center space-y-4 relative z-10 px-4">
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em] mb-4 border border-indigo-100 shadow-xl shadow-indigo-500/10"
-                    >
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
-                        </span>
-                        AI Troubleshooter
-                    </motion.div>
-
-                    <h1 className="text-5xl md:text-7xl font-black text-slate-950 tracking-[-0.04em] uppercase italic leading-none">
-                        AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-sky-600 to-violet-600 bg-300% animate-gradient">Assistant.</span>
-                    </h1>
-                    <p className="text-slate-500 mt-4 font-bold italic text-lg max-w-2xl mx-auto">Smart analysis of your appliance issues using our AI models.</p>
+        <div className="min-h-screen bg-[#F9FAFB] selection:bg-indigo-100">
+            <div className="max-w-6xl mx-auto px-6 py-12 lg:py-16 space-y-12">
+                {/* Classy & Balanced Header */}
+                <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                        <div className="h-12 w-1.5 bg-indigo-600 rounded-full shadow-[0_0_15px_rgba(79,70,229,0.3)]" />
+                        <div>
+                            <div className="flex items-center gap-2 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.2em] mb-1.5">
+                                <Sparkles className="h-3 w-3" />
+                                <span>Diagnostic Protocol</span>
+                            </div>
+                            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight uppercase leading-none">
+                                Smart AI <span className="text-slate-400 font-light italic text-[0.85em]">Troubleshooter</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <p className="text-slate-500 max-w-2xl leading-relaxed font-medium text-sm md:text-base">
+                        Our expert diagnostic engine interprets appliance telemetry and failure symptoms
+                        to provide localized insights and resolution strategies.
+                    </p>
                 </div>
 
-                <div className="grid lg:grid-cols-12 gap-8 items-start relative z-10 px-4">
-                    {/* Input Matrix */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="lg:col-span-5 glass-premium p-8 border-white/60 shadow-2xl space-y-8"
-                    >
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-6">
-                            <h2 className="text-xl font-black text-slate-950 uppercase italic tracking-widest flex items-center gap-3">
-                                <Cpu className="h-6 w-6 text-indigo-600" /> Identify Issue
-                            </h2>
-                            <div className="flex gap-1">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                                <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                            </div>
-                        </div>
+                <div className="grid lg:grid-cols-12 gap-10 items-stretch">
+                    {/* Unified Input Module */}
+                    <div className="lg:col-span-5 flex flex-col space-y-6">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white rounded-2xl border border-slate-200/60 p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-full"
+                        >
+                            <form onSubmit={handleAnalyze} className="space-y-7">
+                                <div className="space-y-2.5">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] ml-1">Appliance Telemetry</label>
+                                    <div className="relative group">
+                                        <select
+                                            value={selectedValue}
+                                            onChange={(e) => setSelectedValue(e.target.value)}
+                                            className="w-full h-12 pl-4 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/5 transition-all outline-none font-bold text-slate-800 text-sm appearance-none cursor-pointer"
+                                            required
+                                        >
+                                            <option value="">Choose device interface...</option>
+                                            {userAppliances.length > 0 && (
+                                                <optgroup label="Registered Hardware">
+                                                    {userAppliances.map(app => {
+                                                        const modelObject = (typeof app.model === 'object' && app.model !== null) ? app.model : null;
+                                                        const modelName = modelObject?.name || (typeof app.model === 'string' ? app.model : 'Unknown');
+                                                        const brandName = modelObject?.brand_id?.name || 'Generic';
+                                                        const categoryName = modelObject?.brand_id?.category_id?.name || 'Device';
+                                                        const label = `${brandName} ${categoryName} — ${modelName}`;
 
-                        <form onSubmit={handleAnalyze} className="space-y-8">
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Select Appliance</label>
-                                <select
-                                    value={selectedValue}
-                                    onChange={(e) => setSelectedValue(e.target.value)}
-                                    className="w-full h-16 px-6 rounded-2xl bg-slate-50/50 border border-slate-200 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none font-black italic text-sm uppercase tracking-tight appearance-none"
-                                    required
-                                >
-                                    <option value="">Choose an appliance...</option>
-                                    {userAppliances.length > 0 && (
-                                        <optgroup label="My Appliances">
-                                            {userAppliances.map(app => {
-                                                const brandName = app.brand?.name || '';
-                                                const categoryName = app.category?.name || '';
-                                                const modelName = app.model?.name || app.model || '';
-
-                                                // Create a descriptive label using whatever info exists
-                                                let label = '';
-                                                if (brandName && categoryName) label = `${brandName} ${categoryName}`;
-                                                else if (brandName && modelName) label = `${brandName} ${modelName}`;
-                                                else if (categoryName && modelName) label = `${categoryName} (${modelName})`;
-                                                else label = brandName || categoryName || modelName || `Appliance #${app._id?.slice(-4)}`;
-
-                                                return (
-                                                    <option
-                                                        key={app._id}
-                                                        value={JSON.stringify({
-                                                            type: 'user',
-                                                            id: app._id,
-                                                            category: categoryName || 'Appliance',
-                                                            label: label
-                                                        })}
-                                                    >
-                                                        {label}
+                                                        return (
+                                                            <option key={app._id} value={JSON.stringify({ type: 'user', id: app._id, category: categoryName, label })}>
+                                                                {label}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </optgroup>
+                                            )}
+                                            <optgroup label="General Architecture">
+                                                {GENERAL_APPLIANCES.map(app => (
+                                                    <option key={app} value={JSON.stringify({ type: 'general', id: null, category: app, label: app })}>
+                                                        {app}
                                                     </option>
-                                                );
-                                            })}
-                                        </optgroup>
-                                    )}
-                                    <optgroup label="All Appliances">
-                                        {GENERAL_APPLIANCES.map(app => (
-                                            <option key={app} value={JSON.stringify({ type: 'general', id: null, category: app, label: app })}>
-                                                {app}
-                                            </option>
-                                        ))}
-                                    </optgroup>
-                                </select>
-                            </div>
+                                                ))}
+                                            </optgroup>
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none group-focus-within:rotate-180 transition-transform" />
+                                    </div>
+                                </div>
 
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Describe the Problem</label>
-                                <textarea
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    placeholder="What's wrong? Type here..."
-                                    className="w-full min-h-[180px] px-6 py-6 rounded-3xl bg-slate-50/50 border border-slate-200 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none font-bold italic lg:text-lg resize-none"
-                                    required
-                                />
-                            </div>
+                                <div className="space-y-2.5">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] ml-1">Failure Signature</label>
+                                    <textarea
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        placeholder="Describe the anomalies in detail..."
+                                        className="w-full min-h-[140px] px-4 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/5 transition-all outline-none font-semibold text-slate-800 text-sm resize-none placeholder:text-slate-400"
+                                        required
+                                    />
+                                </div>
 
-                            <button
-                                type="submit"
-                                disabled={loading || !selectedValue || !description}
-                                className="w-full h-18 bg-slate-950 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-indigo-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 group overflow-hidden relative"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <span className="relative z-10 flex items-center justify-center gap-3 h-full">
+                                <button
+                                    type="submit"
+                                    disabled={loading || !selectedValue || !description}
+                                    className="relative w-full h-12 bg-slate-900 group hover:bg-slate-800 text-white rounded-xl font-bold text-sm tracking-wide transition-all disabled:opacity-50 overflow-hidden flex items-center justify-center gap-3 active:scale-[0.98]"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     {loading ? (
                                         <>
-                                            <Loader2 className="w-6 h-6 animate-spin" />
-                                            Analyzing...
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            <span className="animate-pulse">Synthesizing...</span>
                                         </>
                                     ) : (
                                         <>
-                                            <Zap className="w-5 h-5 fill-white" />
-                                            Find Solution
+                                            <Zap className="h-4 w-4 text-indigo-400" />
+                                            <span>Run Analysis</span>
                                         </>
                                     )}
-                                </span>
-                            </button>
-                        </form>
-                    </motion.div>
+                                </button>
+                            </form>
+                        </motion.div>
+
+                        <div className="p-5 rounded-2xl bg-indigo-50/40 border border-indigo-100/50 flex gap-4 backdrop-blur-sm">
+                            <div className="h-8 w-8 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0">
+                                <Brain className="h-4.5 w-4.5 text-indigo-600" />
+                            </div>
+                            <p className="text-[11px] text-slate-500 leading-relaxed font-bold italic">
+                                AI insights are generated from global telemetry datasets. Local technician verification is recommended for critical hardware failures.
+                            </p>
+                        </div>
+                    </div>
 
                     {/* Result Interface */}
-                    <div className="lg:col-span-7 h-full min-h-[500px] relative">
+                    <div className="lg:col-span-7 flex flex-col">
                         <AnimatePresence mode="wait">
                             {loading ? (
                                 <motion.div
                                     key="loading"
-                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    initial={{ opacity: 0, scale: 0.98 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 1.1 }}
-                                    className="h-full flex flex-col items-center justify-center text-center glass-premium border-white/40 p-12"
+                                    exit={{ opacity: 0, scale: 1.02 }}
+                                    className="h-full bg-white rounded-2xl border border-slate-200/60 flex flex-col items-center justify-center text-center p-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
                                 >
-                                    <div className="relative mb-10">
-                                        <div className="absolute inset-0 bg-indigo-600/20 blur-3xl rounded-full animate-pulse" />
-                                        <div className="relative z-10 h-32 w-32 rounded-[2.5rem] bg-indigo-600 flex items-center justify-center shadow-2xl shadow-indigo-500/40 animate-float">
-                                            <Brain className="w-16 h-16 text-white animate-pulse" />
-                                        </div>
-                                        <div className="absolute -top-4 -right-4 h-12 w-12 rounded-full bg-sky-500 flex items-center justify-center border-4 border-white shadow-lg animate-bounce">
-                                            <Cpu className="h-6 w-6 text-white" />
+                                    <div className="mb-8 relative">
+                                        <div className="h-24 w-24 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-inner">
+                                            <div className="absolute inset-0 border-2 border-indigo-500/20 rounded-3xl animate-[ping_3s_infinite]" />
+                                            <Cpu className="h-10 w-10 text-indigo-500 animate-pulse" />
                                         </div>
                                     </div>
-                                    <h3 className="text-3xl font-black text-slate-950 uppercase italic tracking-tighter">Analyzing your appliance</h3>
-                                    <p className="text-slate-500 font-bold italic text-sm mt-4 tracking-widest uppercase opacity-70">Finding potential issues in our database...</p>
-
-                                    <div className="mt-12 flex gap-4">
-                                        {[0.1, 0.2, 0.3].map(d => (
-                                            <motion.div
-                                                key={d}
-                                                animate={{ height: [10, 30, 10] }}
-                                                transition={{ repeat: Infinity, duration: 1, delay: d }}
-                                                className="w-1 bg-indigo-600 rounded-full"
-                                            />
-                                        ))}
-                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase mb-2">Processing Data</h3>
+                                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest animate-pulse">Matching symptom signatures...</p>
                                 </motion.div>
                             ) : result ? (
                                 <motion.div
                                     key="result"
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="glass-premium border-white/60 shadow-2xl overflow-hidden h-full flex flex-col"
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] h-full flex flex-col"
                                 >
-                                    <div className={`p-6 flex items-center justify-between ${result.severity === 'high' ? 'bg-rose-500 text-white' : result.severity === 'medium' ? 'bg-amber-400 text-slate-900' : 'bg-emerald-500 text-white'}`}>
+                                    {/* Intelligence Bar */}
+                                    <div className={`px-8 py-4 flex items-center justify-between border-b ${result.severity === 'high' ? 'bg-rose-50 border-rose-100' :
+                                        result.severity === 'medium' ? 'bg-amber-50 border-amber-100' :
+                                            'bg-emerald-50 border-emerald-100'
+                                        }`}>
                                         <div className="flex items-center gap-3">
-                                            <AlertTriangle className="h-5 w-5" />
-                                            <span className="font-black uppercase tracking-[0.2em] text-xs italic">
-                                                Severity Level: {result.severity} Priority
+                                            <div className={`h-2 w-2 rounded-full animate-pulse ${result.severity === 'high' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' :
+                                                result.severity === 'medium' ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]' :
+                                                    'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]'
+                                                }`} />
+                                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${result.severity === 'high' ? 'text-rose-700' :
+                                                result.severity === 'medium' ? 'text-amber-700' :
+                                                    'text-emerald-700'
+                                                }`}>
+                                                {result.severity} Priority Detection
                                             </span>
                                         </div>
-                                        {result.is_safe_to_use ? (
-                                            <div className="px-3 py-1 rounded-full bg-white/20 border border-white/30 text-[10px] font-black uppercase tracking-widest italic">Operational</div>
-                                        ) : (
-                                            <div className="px-3 py-1 rounded-full bg-black/20 border border-black/30 text-[10px] font-black uppercase tracking-widest italic font-white">Critical Risk</div>
-                                        )}
+                                        <div className="px-2.5 py-1 rounded-lg bg-white border border-slate-100 text-[9px] font-black text-slate-500 uppercase tracking-widest shadow-sm">
+                                            {result.is_safe_to_use ? 'System Stable' : 'Critical Halt'}
+                                        </div>
                                     </div>
 
-                                    <div className="p-10 space-y-10 flex-1">
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Potential Cause</label>
-                                            <p className="text-3xl font-black text-slate-950 uppercase italic tracking-tighter leading-none">
+                                    <div className="p-8 md:p-10 flex-1 flex flex-col space-y-10">
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Primary Diagnosis</label>
+                                            <p className="text-2xl md:text-3xl font-black text-slate-900 leading-[1.1] tracking-tight">
                                                 {result.likely_cause}
                                             </p>
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-6">
-                                            <div className="p-6 rounded-[2rem] bg-slate-50/50 border border-slate-100 flex flex-col justify-between">
-                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Estimated Repair Cost</label>
-                                                <div className="text-3xl font-black text-slate-950 uppercase italic tracking-tighter">{result.estimated_cost_range}</div>
+                                            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100/80 group hover:border-slate-300 transition-colors">
+                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Projected Cost</label>
+                                                <div className="text-2xl font-black text-slate-900 tracking-tighter italic">{result.estimated_cost_range}</div>
                                             </div>
-                                            <div className="p-6 rounded-[2rem] bg-indigo-50/50 border border-indigo-100 flex flex-col justify-between">
-                                                <label className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Confidence</label>
-                                                <div className="text-3xl font-black text-indigo-600 uppercase italic tracking-tighter">98.4%</div>
+                                            <div className="p-6 rounded-2xl bg-indigo-50/30 border border-indigo-100/50 group hover:border-indigo-300 transition-colors">
+                                                <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1.5">Confidence</label>
+                                                <div className="text-2xl font-black text-indigo-600 tracking-tighter italic">98.4%</div>
                                             </div>
                                         </div>
 
-                                        <div className="p-6 rounded-[2rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
-                                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform"><Sparkles className="w-12 h-12 text-indigo-600" /></div>
-                                            <div className="relative z-10 flex gap-4">
-                                                <div className="h-12 w-12 rounded-2xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30">
-                                                    <Wrench className="h-6 w-6 text-white" />
+                                        <div className="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm relative overflow-hidden flex-1">
+                                            <div className="absolute top-0 right-0 p-4 opacity-[0.03] rotate-12"><Wrench className="h-16 w-16" /></div>
+                                            <div className="relative z-10 flex gap-5">
+                                                <div className="h-10 w-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-lg shadow-slate-900/10">
+                                                    <Wrench className="h-5 w-5 text-indigo-400" />
                                                 </div>
-                                                <div>
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Our Recommendation</label>
-                                                    <p className="text-slate-700 font-bold italic mt-1 leading-relaxed">{result.advice}</p>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">System Recommendation</label>
+                                                    <p className="text-slate-600 text-sm md:text-base leading-relaxed font-bold italic">
+                                                        "{result.advice}"
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <button
                                             onClick={handleBookTechnician}
-                                            className="w-full h-20 bg-indigo-600 text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-indigo-500/30 hover:bg-slate-950 hover:shadow-indigo-500/50 transition-all flex items-center justify-center gap-4 group"
+                                            className="w-full h-16 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-4 shadow-xl shadow-indigo-500/10 hover:shadow-indigo-500/20 active:scale-[0.98]"
                                         >
-                                            Book Technician
-                                            <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                                            Secure Professional Deployment
+                                            <ChevronRight className="h-4 w-4" />
                                         </button>
                                     </div>
                                 </motion.div>
@@ -291,13 +270,15 @@ const SmartTroubleshooter: React.FC = () => {
                                     key="idle"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="h-full flex flex-col items-center justify-center text-center glass-premium border-white/40 p-12 border-dashed border-4 border-slate-200 bg-white/40"
+                                    className="h-full border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center p-12 bg-white/30 backdrop-blur-sm"
                                 >
-                                    <div className="h-24 w-24 rounded-[2.5rem] bg-slate-100 flex items-center justify-center mb-10 rotate-12">
-                                        <Bot className="h-12 w-12 text-slate-300" />
+                                    <div className="h-20 w-20 rounded-3xl bg-white border border-slate-100 flex items-center justify-center mb-8 shadow-sm">
+                                        <Bot className="h-8 w-8 text-slate-200" />
                                     </div>
-                                    <h3 className="text-2xl font-black text-slate-950 uppercase italic tracking-tight">Ready to Help</h3>
-                                    <p className="text-slate-500 font-bold italic text-lg mt-4 max-w-xs mx-auto">Tell us about your appliance issue to get a quick diagnosis.</p>
+                                    <h3 className="text-lg font-black text-slate-900 tracking-tight uppercase mb-2">Protocol Ready</h3>
+                                    <p className="text-slate-400 text-xs font-bold leading-relaxed max-w-[240px] uppercase tracking-wider">
+                                        Awaiting hardware telemetry for localized synthesis.
+                                    </p>
                                 </motion.div>
                             )}
                         </AnimatePresence>

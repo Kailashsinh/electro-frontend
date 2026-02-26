@@ -148,53 +148,65 @@ const UserDashboard: React.FC = () => {
                   <motion.div
                     key={req._id || i}
                     variants={item}
-                    className="group relative glass-premium p-6 hover:bg-white hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 border-white/60"
+                    className="group relative glass-premium p-4 md:p-6 hover:bg-white hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 border-white/60"
                   >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                      <div className="flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-inner">
-                          <Zap className="h-8 w-8 fill-indigo-600/10" />
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
+                      <div className="flex items-start md:items-center gap-4 md:gap-6">
+                        <div className="h-12 w-12 md:h-16 md:w-16 rounded-xl md:rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-inner">
+                          <Zap className="h-6 w-6 md:h-8 md:w-8 fill-indigo-600/10" />
                         </div>
-                        <div>
-                          <div className="flex items-center gap-3 mb-1">
-                            <h3 className="text-xl font-black text-slate-950 uppercase italic tracking-tight truncate max-w-[200px] md:max-w-md">{req.issue_desc || 'Service Request'}</h3>
-                            <StatusBadge status={req.status} />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
+                            <h3 className="text-lg md:text-xl font-black text-slate-950 uppercase italic tracking-tight truncate max-w-full md:max-w-md">
+                              {req.issue_desc || 'Service Request'}
+                            </h3>
+                            <StatusBadge status={req.status} className="scale-90 md:scale-100 origin-left" />
                           </div>
-                          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-4">
-                            <span className="flex items-center gap-2">
-                              <Clock className="w-4 h-4 text-indigo-400" />
+
+                          <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-[10px] md:text-sm font-bold text-slate-400 uppercase tracking-widest">
+                            <span className="flex items-center gap-2 whitespace-nowrap">
+                              <Clock className="w-3.5 h-3.5 md:w-4 md:h-4 text-indigo-400" />
                               {req.preferred_slot}
                             </span>
+
                             {req.technician_id && (
-                              <span className="flex items-center gap-2 text-indigo-600">
-                                <Wrench className="w-4 h-4" />
-                                {req.technician_id.name}
+                              <div className="flex flex-wrap items-center gap-2 text-indigo-600">
+                                <span className="flex items-center gap-1.5 whitespace-nowrap">
+                                  <Wrench className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                                  <span className="max-w-[100px] md:max-w-none truncate">{req.technician_id.name}</span>
+                                </span>
                                 {req.technician_id.phone && (
-                                  <a href={`tel:${req.technician_id.phone}`} className="ml-2 px-2 py-0.5 rounded bg-indigo-50 border border-indigo-100 flex items-center gap-1 hover:bg-indigo-600 hover:text-white transition-all">
-                                    <Phone className="w-3 h-3" /> {req.technician_id.phone}
+                                  <a
+                                    href={`tel:${req.technician_id.phone}`}
+                                    className="px-2 py-0.5 rounded bg-indigo-50 border border-indigo-100 flex items-center gap-1 hover:bg-indigo-600 hover:text-white transition-all whitespace-nowrap"
+                                  >
+                                    <Phone className="w-2.5 h-2.5" /> {req.technician_id.phone}
                                   </a>
                                 )}
-                              </span>
+                              </div>
                             )}
-                          </p>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 ml-auto md:ml-0">
+                      <div className="flex items-center gap-3 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 md:justify-end">
                         {req.technician_id && ['accepted', 'on_the_way', 'awaiting_approval', 'approved', 'in_progress'].includes(req.status) && (
                           <button
                             onClick={(e) => {
                               e.preventDefault();
                               setActiveChat(req._id);
                             }}
-                            className="h-12 px-5 rounded-2xl bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest hover:bg-slate-950 transition-all flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+                            className="flex-1 md:flex-none h-10 md:h-12 px-4 md:px-5 rounded-xl md:rounded-2xl bg-indigo-600 text-white font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-slate-950 transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
                           >
                             <MessageCircle className="h-4 w-4" />
                             Chat
                           </button>
                         )}
-                        <Link to={`/user/requests/${req._id}`} className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-slate-950 hover:text-white transition-all duration-300">
-                          <ArrowRight className="h-6 w-6" />
+                        <Link
+                          to={`/user/requests/${req._id}`}
+                          className="h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-slate-950 hover:text-white transition-all duration-300 shrink-0"
+                        >
+                          <ArrowRight className="h-5 w-5 md:h-6 md:w-6" />
                         </Link>
                       </div>
                     </div>

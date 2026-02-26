@@ -5,6 +5,7 @@ import {
   Zap, Shield, Clock, ArrowRight,
   Smartphone, MapPin, CheckCircle2, PlayCircle, Menu, X, Code2, Lock, Award, Star, Globe, Cpu, Users, Bot
 } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 const LandingPage: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -86,12 +87,9 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/40 backdrop-blur-2xl border-b border-white/20 py-3 shadow-xl shadow-indigo-500/5' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-3 font-black text-2xl tracking-tighter hover:scale-105 transition-transform cursor-pointer group">
-          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-500 hover:rotate-12">
-            <Zap className="h-7 w-7 fill-white" />
-          </div>
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900">ElectroCare</span>
-        </div>
+        <Link to="/" className="flex items-center gap-3">
+          <Logo />
+        </Link>
 
         <div className="hidden md:flex items-center gap-10 text-sm font-bold text-slate-700">
           <a href="#features" className="hover:text-indigo-600 transition-colors relative group/link">
@@ -586,11 +584,8 @@ const CTA = () => (
 const Footer = () => (
   <footer className="py-24 border-t border-slate-100 bg-[#fdfdff] text-center relative overflow-hidden">
     <div className="max-w-7xl mx-auto px-6">
-      <div className="flex items-center justify-center gap-3 font-black text-3xl tracking-tighter mb-10">
-        <div className="h-12 w-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20">
-          <Zap className="h-7 w-7 fill-white" />
-        </div>
-        ElectroCare
+      <div className="flex items-center justify-center mb-10">
+        <Logo />
       </div>
 
       <div className="flex flex-wrap justify-center gap-12 text-sm font-black text-slate-950 uppercase tracking-widest mb-16">

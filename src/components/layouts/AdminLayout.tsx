@@ -15,6 +15,7 @@ import {
     CreditCard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from '@/components/Logo';
 
 const AdminLayout: React.FC = () => {
     const { user, logout, token } = useAuth();
@@ -60,17 +61,15 @@ const AdminLayout: React.FC = () => {
                 sidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 { }
-                <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center">
-                        <ShieldCheck className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                        <h1 className="font-bold text-lg leading-none">ElectroCare</h1>
-                        <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Admin Panel</span>
+                <div className="p-6 border-b border-gray-800 flex items-center justify-between">
+                    <Logo iconOnly />
+                    <div className="flex-1 ml-3">
+                        <h1 className="font-bold text-lg leading-none text-white">ElectroCare</h1>
+                        <span className="text-xs text-red-500 uppercase tracking-wider font-semibold">Admin Panel</span>
                     </div>
                     <button
                         onClick={() => setSidebarOpen(false)}
-                        className="lg:hidden ml-auto text-gray-400 hover:text-white"
+                        className="lg:hidden text-gray-400 hover:text-white"
                     >
                         <X className="w-5 h-5" />
                     </button>

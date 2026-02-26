@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreditCard, Smartphone, Building2, CheckCircle, ShieldCheck, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from '@/components/Logo';
 
 interface PaymentGatewayModalProps {
     amount: number;
@@ -15,7 +16,7 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
     const [processing, setProcessing] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    
+
     const [upiId, setUpiId] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiry, setExpiry] = useState('');
@@ -27,16 +28,16 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
         e.preventDefault();
         setProcessing(true);
 
-        
+
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         setProcessing(false);
         setSuccess(true);
 
-        
+
         setTimeout(() => {
             onSuccess(method);
-            setSuccess(false); 
+            setSuccess(false);
         }, 1500);
     };
 
@@ -50,25 +51,28 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="bg-background w-full max-w-md rounded-2xl shadow-xl overflow-hidden border border-border"
             >
-                {}
+                { }
                 <div className="bg-primary/5 p-4 border-b border-border flex justify-between items-center">
-                    <div>
-                        <h3 className="font-semibold text-lg flex items-center gap-2">
-                            <ShieldCheck className="w-5 h-5 text-green-600" />
-                            Secure Payment
-                        </h3>
-                        <p className="text-sm text-muted-foreground">ElectroCare Payment Gateway</p>
+                    <div className="flex items-center gap-3">
+                        <Logo iconOnly className="scale-75" />
+                        <div>
+                            <h3 className="font-semibold text-lg flex items-center gap-2">
+                                <ShieldCheck className="w-5 h-5 text-green-600" />
+                                Secure Payment
+                            </h3>
+                            <p className="text-sm text-muted-foreground leading-none">ElectroCare Payment Gateway</p>
+                        </div>
                     </div>
                     <button onClick={onClose} className="p-1 hover:bg-black/5 rounded-full"><X className="w-5 h-5" /></button>
                 </div>
 
-                {}
+                { }
                 <div className="p-6 bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 text-center border-b border-border">
                     <p className="text-sm text-muted-foreground uppercase tracking-wider font-medium">Total Payable</p>
                     <h2 className="text-3xl font-bold text-foreground">₹{amount}</h2>
                 </div>
 
-                {}
+                { }
                 <div className="flex p-2 gap-2 border-b border-border bg-muted/20">
                     <button
                         onClick={() => setMethod('UPI')}
@@ -99,11 +103,11 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
                     </button>
                 </div>
 
-                {}
+                { }
                 <div className="p-6">
                     {!success ? (
                         <form onSubmit={handlePay} className="space-y-4">
-                            {}
+                            { }
                             {method === 'UPI' && (
                                 <div className="space-y-3">
                                     <div>
@@ -121,7 +125,7 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
                                 </div>
                             )}
 
-                            {}
+                            { }
                             {method === 'Card' && (
                                 <div className="space-y-3">
                                     <div>
@@ -176,7 +180,7 @@ const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({ amount, isOpe
                                 </div>
                             )}
 
-                            {}
+                            { }
                             {method === 'Net Banking' && (
                                 <div className="space-y-3">
                                     <div>

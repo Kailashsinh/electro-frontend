@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="300" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <!-- Premium Gradient -->
+    <linearGradient id="premiumGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="50%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+
+    <!-- Soft Glow -->
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Shadow -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- White Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- Futuristic Circular Icon -->
+  <g transform="translate(80,60)" filter="url(#softGlow)">
+    <circle cx="80" cy="80" r="70" stroke="url(#premiumGradient)" stroke-width="6" fill="none"/>
+    <polygon points="75,40 105,90 85,90 110,140 60,95 80,95" fill="url(#premiumGradient)"/>
+  </g>
+
+  <!-- Brand Name -->
+  <text x="220" y="150"
+        font-family="Orbitron, Segoe UI, Arial, sans-serif"
+        font-size="80"
+        font-weight="700"
+        fill="url(#premiumGradient)"
+        letter-spacing="4"
+        filter="url(#softGlow)">
+    ElectroCare
+  </text>
+
+  <!-- Tagline -->
+  <text x="225" y="200"
+        font-family="Segoe UI, Arial, sans-serif"
+        font-size="24"
+        fill="#334155"
+        letter-spacing="6"
+        filter="url(#shadow)">
+    INTELLIGENT HOME MAINTENANCE
+  </text>
+
+</svg>

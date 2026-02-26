@@ -68,7 +68,7 @@ const MyAppliances: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
   const [form, setForm] = useState({
-    category: '', brand: '', model: '', purchaseDate: '', serial_number: '', invoiceNumber: '', installation_address: '',
+    category: '', brand: '', model: '', purchaseDate: '', serial_number: '', invoiceNumber: '',
   });
 
   const { toast } = useToast();
@@ -89,7 +89,7 @@ const MyAppliances: React.FC = () => {
       await applianceApi.register(form);
       toast({ title: 'Success', description: 'Appliance registered successfully!' });
       setShowForm(false);
-      setForm({ category: '', brand: '', model: '', purchaseDate: '', serial_number: '', invoiceNumber: '', installation_address: '' });
+      setForm({ category: '', brand: '', model: '', purchaseDate: '', serial_number: '', invoiceNumber: '' });
       loadAppliances();
     } catch (err: any) {
       toast({ title: 'Error', description: err.response?.data?.message || 'Failed to register', variant: 'destructive' });
@@ -239,18 +239,6 @@ const MyAppliances: React.FC = () => {
                   />
                 </div>
 
-                <div className="md:col-span-2 lg:col-span-3 space-y-2">
-                  <label className="text-sm font-bold text-gray-700 ml-1">Installation Address</label>
-                  <textarea
-                    name="installation_address"
-                    value={form.installation_address}
-                    onChange={(e) => setForm({ ...form, installation_address: e.target.value })}
-                    required
-                    rows={4}
-                    placeholder="Enter the installation address here"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none resize-none"
-                  />
-                </div>
 
 
 
@@ -376,12 +364,6 @@ const MyAppliances: React.FC = () => {
                         </span>
                       </div>
 
-                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white/50 border border-white/50 hover:bg-white/60 transition-colors">
-                        <MapPin className="h-4 w-4 text-gray-500 opacity-70 mt-0.5 shrink-0" />
-                        <span className="text-xs font-medium text-gray-700 line-clamp-2 leading-relaxed">
-                          {app.installation_address || 'No address provided'}
-                        </span>
-                      </div>
                     </div>
 
                     { }
