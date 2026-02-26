@@ -319,12 +319,12 @@ const CreateServiceRequest: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Street Name / House No.</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">House No./ Street Name / Area</label>
                       <input type="text" required value={manualAddress.street} onChange={(e) => setManualAddress({ ...manualAddress, street: e.target.value })} placeholder="e.g. Skyline Avenue" className="w-full px-8 py-5 rounded-2xl border border-slate-200 bg-slate-50/30 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none font-bold italic" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">City</label>
-                      <input type="text" required value={manualAddress.city} onChange={(e) => setManualAddress({ ...manualAddress, city: e.target.value })} placeholder="e.g. Neo Tokyo" className="w-full px-8 py-5 rounded-2xl border border-slate-200 bg-slate-50/30 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none font-bold italic" />
+                      <input type="text" required value={manualAddress.city} onChange={(e) => setManualAddress({ ...manualAddress, city: e.target.value })} placeholder="e.g. Mumbai" className="w-full px-8 py-5 rounded-2xl border border-slate-200 bg-slate-50/30 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none font-bold italic" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Pincode</label>
@@ -333,22 +333,32 @@ const CreateServiceRequest: React.FC = () => {
                   </div>
                 )}
 
-                {subscription?.status === 'active' && (
-                  <div className="group relative overflow-hidden rounded-3xl p-1 bg-gradient-to-r from-emerald-500 to-teal-500 cursor-pointer shadow-xl shadow-emerald-500/20" onClick={() => setUseSubscription(!useSubscription)}>
-                    <div className={`relative p-6 rounded-[22px] transition-all flex items-center gap-6 ${useSubscription ? 'bg-white/0 text-white' : 'bg-white text-slate-900 border border-emerald-100'}`}>
-                      <div className={`h-12 w-12 rounded-2xl flex items-center justify-center transition-all ${useSubscription ? 'bg-white text-emerald-600 rotate-[360deg]' : 'bg-emerald-100 text-emerald-600'}`}>
-                        {useSubscription ? <CheckCircle className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
+                {(() => {
+                  const availableVisits = subscription?.plan === 'premium' ? 2 - (subscription.free_visits_used || 0) :
+                    subscription?.plan === 'premium_pro' ? 6 - (subscription.free_visits_used || 0) : 0;
+
+                  if (subscription?.status === 'active' && availableVisits > 0) {
+                    return (
+                      <div className="group relative overflow-hidden rounded-3xl p-1 bg-gradient-to-r from-emerald-500 to-teal-500 cursor-pointer shadow-xl shadow-emerald-500/20" onClick={() => setUseSubscription(!useSubscription)}>
+                        <div className={`relative p-6 rounded-[22px] transition-all flex items-center gap-6 ${useSubscription ? 'bg-white/0 text-white' : 'bg-white text-slate-900 border border-emerald-100'}`}>
+                          <div className={`h-12 w-12 rounded-2xl flex items-center justify-center transition-all ${useSubscription ? 'bg-white text-emerald-600 rotate-[360deg]' : 'bg-emerald-100 text-emerald-600'}`}>
+                            {useSubscription ? <CheckCircle className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-black uppercase italic tracking-tighter text-xl">Premium Plan Active</p>
+                            <p className={`text-xs font-bold italic transition-colors ${useSubscription ? 'text-emerald-50' : 'text-slate-500'}`}>
+                              Waive visit fee (₹200 savings). <span className="underline underline-offset-2">{availableVisits} free visits</span> remaining.
+                            </p>
+                          </div>
+                          <div className={`h-8 w-8 rounded-full border-2 flex items-center justify-center transition-all ${useSubscription ? 'border-white scale-110' : 'border-slate-200'}`}>
+                            {useSubscription && <div className="h-4 w-4 bg-white rounded-full animate-pulse" />}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-black uppercase italic tracking-tighter text-xl">Premium Plan Active</p>
-                        <p className={`text-xs font-bold italic transition-colors ${useSubscription ? 'text-emerald-50' : 'text-slate-500'}`}>Waive visit fee (₹200 savings) via current membership.</p>
-                      </div>
-                      <div className={`h-8 w-8 rounded-full border-2 flex items-center justify-center transition-all ${useSubscription ? 'border-white scale-110' : 'border-slate-200'}`}>
-                        {useSubscription && <div className="h-4 w-4 bg-white rounded-full animate-pulse" />}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                    );
+                  }
+                  return null;
+                })()}
               </div>
             )}
 

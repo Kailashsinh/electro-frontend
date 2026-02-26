@@ -21,9 +21,9 @@ const LandingPage: React.FC = () => {
 
       {/* Subtle Floating Blobs for Extra Depth - Very Light & Soft */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-200/20 blur-[150px] animate-blob mix-blend-multiply" />
-        <div className="absolute top-[20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-200/20 blur-[150px] animate-blob animation-delay-2000 mix-blend-multiply" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[60%] h-[60%] rounded-full bg-pink-200/20 blur-[150px] animate-blob animation-delay-4000 mix-blend-multiply" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-200/20 blur-[100px] animate-blob mix-blend-multiply will-change-transform" />
+        <div className="absolute top-[20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-200/20 blur-[100px] animate-blob animation-delay-2000 mix-blend-multiply will-change-transform" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[60%] h-[60%] rounded-full bg-pink-200/20 blur-[100px] animate-blob animation-delay-4000 mix-blend-multiply will-change-transform" />
       </div>
 
       <motion.div className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-400/50 via-indigo-400/50 to-purple-400/50 origin-left z-[60]" style={{ scaleX }} />
@@ -42,28 +42,30 @@ const LandingPage: React.FC = () => {
 // --- Magnetic Effect Wrapper ---
 const MagneticButton = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   const handleMouse = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current!.getBoundingClientRect();
+    if (!ref.current) return;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
     const middleX = clientX - (left + width / 2);
     const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.3, y: middleY * 0.3 });
+    x.set(middleX * 0.3);
+    y.set(middleY * 0.3);
   };
 
   const reset = () => {
-    setPosition({ x: 0, y: 0 });
+    x.set(0);
+    y.set(0);
   };
-
-  const { x, y } = position;
 
   return (
     <motion.div
       ref={ref}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
-      animate={{ x, y }}
+      style={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       className={`inline-block ${className}`}
     >
@@ -329,7 +331,7 @@ const Hero = () => {
           </div>
 
           {/* Soft Glow Background */}
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-[110%] h-[110%] bg-indigo-500/10 blur-[70px] -z-10 pointer-events-none" />
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-[110%] h-[110%] bg-indigo-500/10 blur-[50px] -z-10 pointer-events-none will-change-filter" />
         </div>
       </div>
     </section>
@@ -379,7 +381,7 @@ const Features = () => {
             visual={
               <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30" />
-                <div className="w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse" />
+                <div className="w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[100px] animate-pulse" />
                 <div className="grid grid-cols-8 gap-3 opacity-20 relative z-10 rotate-[15deg] scale-[2]">
                   {Array.from({ length: 40 }).map((_, i) => (
                     <div key={i} className="w-16 h-16 rounded-xl bg-indigo-500/20 border border-indigo-400/30 backdrop-blur-3xl animate-pulse" style={{ animationDelay: `${i * 150}ms` }} />

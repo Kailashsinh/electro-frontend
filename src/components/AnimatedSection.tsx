@@ -23,7 +23,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, className, 
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+      className={`${className} will-change-[opacity,transform]`}
     >
       {children}
     </motion.div>

@@ -47,8 +47,8 @@ const UserDashboard: React.FC = () => {
     <div className="relative min-h-screen">
       {/* Aurora Background Overlay for Dashboard Content Area */}
       <div className="fixed inset-0 -z-10 bg-[#f8fafc] overflow-hidden pointer-events-none opacity-50">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[150px] -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-fuchsia-500/10 blur-[120px] translate-y-1/2 -translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 blur-[100px] -translate-y-1/2 translate-x-1/2 will-change-filter" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-fuchsia-500/10 blur-[80px] translate-y-1/2 -translate-x-1/2 will-change-filter" />
       </div>
 
       <div className="space-y-12 pb-20">

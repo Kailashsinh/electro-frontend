@@ -8,7 +8,7 @@ interface StatCardProps {
   icon: LucideIcon;
   trend?: string;
   delay?: number;
-  className?: string; 
+  className?: string;
 }
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, trend, delay = 0, className }) => {
@@ -17,7 +17,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, trend, de
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative overflow-hidden bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-6 shadow-lg shadow-indigo-500/5 hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1 ${className}`}
+      className={`group relative overflow-hidden bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-6 shadow-lg shadow-indigo-500/5 hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1 will-change-[opacity,transform] ${className}`}
     >
       <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-500">
         <Icon className="w-24 h-24 text-current rotate-12" />
