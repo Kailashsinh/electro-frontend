@@ -25,7 +25,25 @@ export const adminApi = {
     deleteAppliance: (id: string) => apiClient.delete(`/admin/appliances/${id}`),
 
 
-    getReportData: (type: 'users' | 'technicians' | 'revenue') => apiClient.get(`/admin/reports?type=${type}`),
+    getReportData: (params: { type: string, startDate?: string, endDate?: string, status?: string }) => {
+        const query = new URLSearchParams(params as any).toString();
+        return apiClient.get(`/admin/reports?${query}`);
+    },
+
+    getRevenueReport: (params: any) => {
+        const query = new URLSearchParams(params).toString();
+        return apiClient.get(`/reports/revenue?${query}`);
+    },
+
+    getUserRosterReport: (params: any) => {
+        const query = new URLSearchParams(params).toString();
+        return apiClient.get(`/reports/users?${query}`);
+    },
+
+    getTechnicianPerformanceReport: (params: any) => {
+        const query = new URLSearchParams(params).toString();
+        return apiClient.get(`/reports/technicians?${query}`);
+    },
 
 
     login: (credentials: any) => apiClient.post('/auth/admin/login', credentials),
